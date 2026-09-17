@@ -1,0 +1,1 @@
+# Ads Risk Check\n\nFree click magnet: paste suspension notice → risk card.\n

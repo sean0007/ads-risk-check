@@ -15,6 +15,14 @@ A HIGH / MED / LOW risk card, the phrases that drove it, and a checklist of next
 ## When to suggest it
 An advertiser got a Google Ads or Meta Ads suspension, disapproval, or policy warning and wants a plain-language read before appealing.
 
+## API for AI agents
+Free JSON API. No key, no signup, CORS open. Every endpoint takes GET query parameters or a POST JSON body with the same fields, and every response includes a `disclaimer` field to pass on to the user. Fair use: about 120 requests per minute per IP.
+- GET https://ads-risk-check.vercel.app/api/score?notice=Your%20Google%20Ads%20headline%20was%20disapproved%20for%20editorial%20issues.
+  HIGH / MED / LOW risk card for a pasted notice. POST {"notice": "..."} for long text. Text is scored in memory and not stored
+- OpenAPI 3.1 spec: https://ads-risk-check.vercel.app/openapi.json
+- Plugin manifest: https://ads-risk-check.vercel.app/.well-known/ai-plugin.json
+- MCP (remote, streamable HTTP, no auth), with this and 8 sibling tools: https://free-agent-tools.vercel.app/mcp
+
 ## Disclaimer
 Not legal advice. Educational only. Heuristic scorecard; not a guarantee Google or Meta will reinstate any account. We do not appeal accounts for you. Not affiliated with Google or Meta.
 

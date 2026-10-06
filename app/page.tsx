@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckForm } from "@/components/check-form";
+import { FaqSection } from "@/components/faq-section";
+import { HOME_FAQ, META_GUIDE_PATH } from "@/lib/faq";
 import { SponsorSlot } from "@/components/sponsor-slot";
 
 const levels = [
@@ -20,20 +23,51 @@ const levels = [
   },
 ] as const;
 
+const title = "Free Google Ads & Meta ad account suspension notice checker";
+const description =
+  "Google Ads account suspended? Meta ad account disabled or restricted from advertising? Paste the notice and get a free HIGH / MED / LOW risk card with plain-language reasons and a next-step checklist. No login. We don't file appeals.";
+
+export const metadata: Metadata = {
+  title: { absolute: `${title} · Ads Risk Check` },
+  description,
+  alternates: { canonical: "/" },
+  openGraph: { title: `Ads Risk Check: ${title}`, description, url: "/", type: "website" },
+  twitter: { card: "summary_large_image", title: `Ads Risk Check: ${title}`, description },
+};
+
+const appJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Ads Risk Check",
+  url: "https://ads-risk-check.vercel.app",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Any (web browser)",
+  isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  description,
+};
+
 export default function HomePage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <section className="max-w-3xl">
         <p className="font-mono text-[11px] tracking-[0.28em] text-amber uppercase">
-          Free educational scorecard
+          Free Google Ads + Meta notice checker
         </p>
         <h1 className="mt-3 font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
-          Paste the suspension notice. Get a risk card.
+          Ad account suspended, disabled, or restricted? Paste the notice.
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           Google Ads and Meta Ads emails are full of policy names. This page highlights phrases
           it knows and sorts them into HIGH, MED, or LOW, with a short checklist. It runs in your
           browser. It does not see your account, and it does not file an appeal.
+        </p>
+        <p className="mt-3 text-sm text-muted">
+          Meta says &quot;disabled&quot; or &quot;restricted&quot;?{" "}
+          <Link href={META_GUIDE_PATH} className="text-amber underline">
+            Disabled vs restricted, explained
+          </Link>
+          .
         </p>
       </section>
 
@@ -96,12 +130,18 @@ export default function HomePage() {
               href="/digest"
               className="rounded-full border border-white/15 px-5 py-2.5 text-sm hover:bg-white/5"
             >
-              Digest stub
+              Email digest (beta)
             </Link>
           </div>
         </div>
         <SponsorSlot />
       </section>
+
+      <FaqSection items={HOME_FAQ} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd).replace(/</g, "\\u003c") }}
+      />
     </div>
   );
 }

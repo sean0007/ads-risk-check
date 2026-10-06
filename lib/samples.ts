@@ -26,4 +26,10 @@ export const sampleNotices: SampleNotice[] = [
     level: "LOW",
     text: "Your Google Ads headline was disapproved for editorial issues: excessive capitalization and punctuation. The account remains active.",
   },
+  {
+    id: "meta-disabled",
+    label: "Meta disabled",
+    level: "MED",
+    text: "Your ad account has been disabled because it didn't follow our Advertising Standards. If you think this is a mistake, you can request a review in Business Support Home.",
+  },
 ];

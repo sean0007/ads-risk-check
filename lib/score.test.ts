@@ -112,4 +112,39 @@ describe("scoreNotice", () => {
     assert.ok(result.reasons.some((reason) => reason.id === "editorial"));
     assert.ok(result.reasons.some((reason) => reason.id === "misrepresentation"));
   });
+
+  it("recognizes a real-style Meta disabled notice instead of returning no match", () => {
+    const result = scoreNotice(
+      "Your ad account has been disabled for unusual activity. You can request a review.",
+    );
+    assert.equal(result.ok, true);
+    if (!result.ok) return;
+    assert.equal(result.level, "MED");
+    assert.deepEqual(
+      result.reasons.map((reason) => reason.id),
+      ["meta-disabled", "security"],
+    );
+    assert.ok(result.checklist.some((step) => /Business Support Home/.test(step)));
+  });
+
+  it("recognizes Meta restricted-from-advertising wording", () => {
+    const result = scoreNotice(
+      "Your ad account has been restricted from advertising because it didn't follow our Advertising Standards.",
+    );
+    assert.equal(result.ok, true);
+    if (!result.ok) return;
+    assert.equal(result.level, "MED");
+    assert.equal(result.platform, "Meta Ads");
+    assert.ok(result.reasons.some((reason) => reason.id === "meta-restricted"));
+  });
+
+  it("keeps a Meta disabled notice HIGH when it also names a serious policy", () => {
+    const result = scoreNotice(
+      "Your Facebook ad account has been disabled for circumventing systems after a previous restriction.",
+    );
+    assert.equal(result.ok, true);
+    if (!result.ok) return;
+    assert.equal(result.level, "HIGH");
+    assert.ok(result.reasons.some((reason) => reason.id === "meta-disabled"));
+  });
 });

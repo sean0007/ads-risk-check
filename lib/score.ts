@@ -247,6 +247,60 @@ const signals: Signal[] = [
     ],
   },
   {
+    id: "meta-disabled",
+    label: "Ad account disabled",
+    severity: "med",
+    weight: 4,
+    patterns: [
+      /\b(?:ad|ads|advertising) account (?:has been |was |is |got )?(?:permanently )?disabled\b/i,
+      /\bdisabled (?:ad|ads|advertising) account\b/i,
+      /\baccount (?:has been |was |is )?disabled for (?:advertising|policy|unusual|suspicious)\b/i,
+    ],
+    explanation:
+      "On Meta, a disabled ad account cannot run ads, and Meta says it cannot be switched back on in place: the path is a review request, not a reactivation. Meta also says an account that stays ineligible for six months can no longer be reinstated. How serious it is depends on the policy the notice names, so look for that next.",
+    steps: [
+      "Open Meta Business Support Home, go to Account overview, pick the disabled account, and read the What you can do section. Only an admin can request a review.",
+      "Note the date. Meta says an ad account that stays ineligible for six months can no longer be reinstated.",
+    ],
+  },
+  {
+    id: "meta-restricted",
+    label: "Restricted from advertising",
+    severity: "med",
+    weight: 3,
+    patterns: [
+      /\brestricted from (?:advertising|running ads|creating ads)\b/i,
+      /\badvertising restrictions?\b/i,
+      /\b(?:ad account|business portfolio|business account|business manager|page|profile) (?:has been |is |was )?restricted\b/i,
+      /\b(?:didn't|did not|doesn't|does not) (?:follow|comply with) (?:our|the|meta's) advertising standards\b/i,
+    ],
+    explanation:
+      "Meta can restrict a business portfolio, an ad account, a Page, or a person's profile. A restriction can mean spend or payment limits, lost features, or no advertising at all, and a restricted person or portfolio can take every ad account under it down too. Check which asset the notice names.",
+    steps: [
+      "Find which asset is restricted (profile, Page, ad account, or business portfolio) in Meta Business Support Home before you change any ads.",
+      "If you think the restriction is wrong, an admin can select Request review under What you can do. Do not move the ads to a new profile or portfolio.",
+    ],
+  },
+  {
+    id: "security",
+    label: "Unusual activity or security",
+    severity: "med",
+    weight: 3,
+    patterns: [
+      /\bunusual activity\b/i,
+      /\bsuspicious (?:activity|login|logins|payment)\b/i,
+      /\bunauthori[sz]ed (?:access|activity|login|logins|charges?|payments?)\b/i,
+      /\b(?:account|page|profile) (?:was |has been |may have been )?(?:hacked|compromised)\b/i,
+      /\bsecure your account\b/i,
+    ],
+    explanation:
+      "Unusual or suspicious activity wording often means the platform thinks someone else got into the account, or that a payment looked risky. Securing the account usually comes before any review request.",
+    steps: [
+      "Change your password, turn on two-factor authentication, and remove admins or payment methods you do not recognize.",
+      "Then follow the steps the platform lists, such as confirming your identity, before you request a review.",
+    ],
+  },
+  {
     id: "repeated",
     label: "Repeat violations",
     severity: "med",
@@ -305,7 +359,7 @@ const LEVEL_COPY: Record<RiskLevel, { headline: string; detail: string }> = {
   MED: {
     headline: "Medium risk wording",
     detail:
-      "The notice looks closer to billing, destination, verification, a restricted category, or a limit than to the most severe policy labels. Fix the specific problem the email names. This score does not say the account will be restored.",
+      "The notice looks closer to billing, destination, verification, a restricted category, a disabled or restricted ad account, or a limit than to the most severe policy labels. Fix the specific problem the email names. This score does not say the account will be restored.",
   },
   LOW: {
     headline: "Low risk wording",
@@ -334,7 +388,10 @@ function hasMatch(text: string, pattern: RegExp): boolean {
 
 export function detectPlatform(text: string): Platform {
   const google = /\b(?:google ads|google adsense|adsense|google merchant center)\b/i.test(text);
-  const meta = /\b(?:meta ads|facebook ads|instagram ads|meta business suite)\b/i.test(text);
+  const meta =
+    /\b(?:meta ads|facebook ads|instagram ads|meta business suite|business support home|meta ads manager|business portfolio|advertising standards|facebook|instagram)\b/i.test(
+      text,
+    );
   if (google && meta) return "Google & Meta";
   if (google) return "Google Ads";
   if (meta) return "Meta Ads";

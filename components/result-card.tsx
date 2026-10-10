@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { CardDisclaimer } from "@/components/card-disclaimer";
+import { ShareBar } from "@/components/share-bar";
+import { PUBLIC_URL, inputsFromResult, resultHeadline, resultPath } from "@/lib/share";
 import { summarizeScore, type ScoreSuccess } from "@/lib/score";
 
 const levelClass: Record<ScoreSuccess["level"], string> = {
@@ -10,8 +12,10 @@ const levelClass: Record<ScoreSuccess["level"], string> = {
   LOW: "text-teal-200",
 };
 
-export function ResultCard({ result }: { result: ScoreSuccess }) {
+export function ResultCard({ result, shared = false }: { result: ScoreSuccess; shared?: boolean }) {
   const [copied, setCopied] = useState(false);
+  const path = resultPath(inputsFromResult(result));
+  const shareUrl = `${PUBLIC_URL}${path}`;
 
   async function copySummary() {
     try {
@@ -84,6 +88,20 @@ export function ResultCard({ result }: { result: ScoreSuccess }) {
         <p className="text-xs text-muted">
           The card leaves out the notice text, so a screenshot is safer to share.
         </p>
+      </div>
+      <div className="mt-4 rounded-2xl border border-white/10 bg-black/25 px-4 py-4" data-testid="share-result">
+        <p className="text-xs leading-relaxed text-muted">
+          Share this result. The link carries only the risk level, the matched phrase groups, and the
+          platform. It never includes your notice text, and nothing is stored.
+        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <ShareBar url={shareUrl} text={`${resultHeadline(result)}. Free checker:`} />
+          {shared ? null : (
+            <a href={path} className="text-sm text-muted underline underline-offset-2 hover:text-foreground">
+              Open result page
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

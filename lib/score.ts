@@ -414,6 +414,25 @@ export function scoreNotice(input: string): ScoreResult {
   const matched = signals.filter((signal) =>
     signal.patterns.some((pattern) => hasMatch(text, pattern)),
   );
+  return buildResult(matched, detectPlatform(text));
+}
+
+/** Stable ids of every phrase group, in scoring order. Used by shareable result links. */
+export const SIGNAL_IDS: readonly string[] = signals.map((signal) => signal.id);
+
+/**
+ * Rebuilds a result from matched phrase-group ids and a platform, without the notice text.
+ * Gives exactly what scoreNotice returns for a notice that matched those groups.
+ */
+export function scoreFromSignals(ids: readonly string[], platform: Platform): ScoreSuccess {
+  const wanted = new Set(ids);
+  return buildResult(
+    signals.filter((signal) => wanted.has(signal.id)),
+    platform,
+  );
+}
+
+function buildResult(matched: Signal[], platform: Platform): ScoreSuccess {
   const score = matched.reduce((sum, signal) => sum + signal.weight, 0);
   const level: RiskLevel = matched.some((signal) => signal.severity === "high")
     ? "HIGH"
@@ -444,7 +463,7 @@ export function scoreNotice(input: string): ScoreResult {
     ok: true,
     level,
     score,
-    platform: detectPlatform(text),
+    platform,
     reasons,
     checklist,
     headline: copy.headline,

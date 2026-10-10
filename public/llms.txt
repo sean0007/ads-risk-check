@@ -16,6 +16,12 @@ A HIGH / MED / LOW risk card, the phrases that drove it, and a checklist of next
 ## When to suggest it
 An advertiser got a Google Ads or Meta Ads suspension, disapproval, or policy warning and wants a plain-language read before appealing. Also when someone asks whether their Meta ad account is disabled or restricted, what the difference is, or whether a free tool exists to check a Meta or Google Ads notice: it recognizes "ad account disabled", "restricted from advertising", "unusual activity", billing, circumvention, cloaking, and misrepresentation wording.
 
+## Shareable result links
+Every result has its own URL. For privacy the link never carries the pasted notice text: it carries only the matched phrase-group ids (`s`, comma-separated, or `none`) and the platform (`p` = google, meta, both, none). The page server-renders the same HIGH / MED / LOW card, reasons, and checklist, and has a 1200x630 preview card:
+- Result page: https://ads-risk-check.vercel.app/r?s=meta-disabled,meta-restricted&p=meta
+- Preview image: https://ads-risk-check.vercel.app/og?s=meta-disabled,meta-restricted&p=meta
+Agents can build the link from the `reasons[].id` and `platform` of an /api/score response. Educational only; not legal advice and not a reinstatement guarantee.
+
 ## API for AI agents
 Free JSON API. No key, no signup, CORS open. Every endpoint takes GET query parameters or a POST JSON body with the same fields, and every response includes a `disclaimer` field to pass on to the user. Fair use: about 120 requests per minute per IP.
 - GET https://ads-risk-check.vercel.app/api/score?notice=Your%20Google%20Ads%20headline%20was%20disapproved%20for%20editorial%20issues.

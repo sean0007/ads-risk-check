@@ -37,6 +37,7 @@ Not legal advice. Educational only. Heuristic scorecard; not a guarantee Google 
 - Pitch Roast: https://pitch-roast.vercel.app
 - Founder Scorecard: https://fund-fix-flee.vercel.app
 - Japan Trip Brain: https://japan-trip-brain.vercel.app
+- Japan Tax-Free Refund Checker: https://japan-tax-free-refund.vercel.app
 - Hotel OTA Commission Calculator: https://hotel-ota-calculator.vercel.app
 - SaaS Bill Cutter: https://saas-bill-cutter.vercel.app
 - Faceless YT Reality Check: https://faceless-yt-risk-check.vercel.app

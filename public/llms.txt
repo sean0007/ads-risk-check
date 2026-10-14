@@ -40,6 +40,7 @@ Not legal advice. Educational only. Heuristic scorecard; not a guarantee Google 
 - Japan Tax-Free Refund Checker: https://japan-tax-free-refund.vercel.app
 - Japan Visa Fee Calculator: https://japan-visa-fee.vercel.app
 - Japan Luggage Check: https://japan-luggage.vercel.app
+- Kyushu Travel Discount: https://kyushu-travel-discount.vercel.app
 - Hotel OTA Commission Calculator: https://hotel-ota-calculator.vercel.app
 - SaaS Bill Cutter: https://saas-bill-cutter.vercel.app
 - Faceless YT Reality Check: https://faceless-yt-risk-check.vercel.app

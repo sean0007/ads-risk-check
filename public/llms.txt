@@ -43,6 +43,7 @@ Not legal advice. Educational only. Heuristic scorecard; not a guarantee Google 
 - Kyushu Travel Discount: https://kyushu-travel-discount.vercel.app
 - Japan Customs Allowance: https://japan-customs-allowance.vercel.app
 - Japan TB Screening (JPETS): https://japan-tb-screening.vercel.app
+- Japan Dual Pricing Check: https://japan-dual-pricing.vercel.app
 - Hotel OTA Commission Calculator: https://hotel-ota-calculator.vercel.app
 - SaaS Bill Cutter: https://saas-bill-cutter.vercel.app
 - Faceless YT Reality Check: https://faceless-yt-risk-check.vercel.app
